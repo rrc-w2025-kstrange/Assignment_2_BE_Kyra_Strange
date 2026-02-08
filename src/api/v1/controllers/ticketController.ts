@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService } from "../services/ticketService";
+import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService, Ticket } from "../services/ticketService";
+import { error } from "console";
 
 export const getAllTickets = (req: Request, res: Response) => {
     let result = getAllTicketsService()
@@ -7,14 +8,33 @@ export const getAllTickets = (req: Request, res: Response) => {
 };
 
 export const getTicketById = (req: Request, res: Response) => {
-    let result = getTicketByIdService()
+    let id = Number(req.params.id)
+
+    if (Number.isNaN(id)){
+        res.status(404).json({error})
+    }
+
+    let result = getTicketByIdService(id)
     res.status(200).json(result);
 };
 
 export const getTicketUrgency = (req: Request, res: Response) => {
-    let result = getTicketUrgencyService()
+    let id = Number(req.params.id)
+
+    if (Number.isNaN(id)){
+        res.status(404).json({error})
+    }
+    
+    const ticket = getTicketByIdService(id);
+
+    if (!ticket) {
+        return res.status(404).json({ error: "Ticket not found" });
+    }
+
+    let result = getTicketUrgencyService(ticket);
     res.status(200).json(result);
-};
+};    
+
 
 export const createTicket = (req: Request, res: Response) => {
     let result = createTicketService("test")
