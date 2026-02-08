@@ -28,30 +28,46 @@ export const getTicketByIdService = (id: number): Ticket | undefined => {
 
 export const getTicketUrgencyService = (ticket: Ticket) => {
     let message = "Ticket urgency calculated"
-
-    if (ticket.status === "resolved") {
-        return {
-            ticketAge: 0,
-            urgencyScore: 0,
-            urgencyLevel: "Ticket is resolved.",
-        };
-    }
+    const baseData = {
+        id: ticket.id,
+        title: ticket.title,
+        priority: ticket.priority,
+        status: ticket.status,
+        createdAt: ticket.createdAt
+    };
 
     const now = new Date();
     const ticketAge = Math.floor((now.getTime() - ticket.createdAt.getTime()) / (1000 * 60 * 60 * 24));
     const base = baseScore[ticket.priority];
     const urgencyScore = base + ticketAge * 5;
 
-    let urgencyLevel = "Low urgency. Monitor the ticket.";
-    if (urgencyScore >= 100) urgencyLevel = "Critical urgency! Immediate action required.";
-    else if (urgencyScore >= 70) urgencyLevel = "High urgency. Needs prompt attention.";
-    else if (urgencyScore >= 40) urgencyLevel = "Moderate urgency. Schedule soon.";
+    let urgencyLevel = "Low urgency. Address when capacity allows.";
+    if (urgencyScore >= 80) urgencyLevel = "Critical. Immediate attention required. ";
+    else if (urgencyScore >= 55) urgencyLevel = "High urgency. Prioritize resolution.";
+    else if (urgencyScore >= 30) urgencyLevel = "Moderate. Schedule for attention.";
+    
+    if (ticket.status === "resolved") {
+        return {
+            message,
+            data: {
+                ...baseData,
+                ticketAge,
+                urgencyScore: 0,
+                urgencyLevel: "Minimal. Ticket resolved."
+            }
+        };
+    }
 
     return { 
         message, 
-        data: {...ticket, ticketAge, urgencyScore, urgencyLevel}
+        data: {
+            ...baseData,
+            ticketAge,
+            urgencyScore,
+            urgencyLevel
+        }
     };
-};
+}
 
 export const createTicketService = (item: string): string => {
     // Logic to add a new item to the database

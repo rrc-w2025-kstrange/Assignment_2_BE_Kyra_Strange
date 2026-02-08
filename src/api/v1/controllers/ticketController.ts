@@ -23,16 +23,19 @@ export const getTicketUrgency = (req: Request, res: Response) => {
 
     if (Number.isNaN(id)){
         res.status(404).json({error})
+        return;
     }
     
     const ticket = getTicketByIdService(id);
 
     if (!ticket) {
-        return res.status(404).json({ error: "Ticket not found" });
+        res.status(404).json({ message: "Ticket not found" });
+        return;
     }
 
     let result = getTicketUrgencyService(ticket);
     res.status(200).json(result);
+    return;
 };    
 
 
