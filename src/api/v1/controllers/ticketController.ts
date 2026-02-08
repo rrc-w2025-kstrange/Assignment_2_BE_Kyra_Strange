@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
+import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService } from "../services/ticketService";
 
 export const getAllTickets = (req: Request, res: Response) => {
-    // Logic to get all items
-    res.status(200).send("Get all items");
+
+    let result = getAllTicketsService()
+    res.status(200).json(result);
 };
 
 export const getTicketById = (req: Request, res: Response) => {
