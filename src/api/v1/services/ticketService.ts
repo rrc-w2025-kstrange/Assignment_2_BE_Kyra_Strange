@@ -21,9 +21,9 @@ export const getAllTicketsService = (): {} => {
     return {message: "Tickets retrieved", count: tickets.length, data: tickets};
 };
 
-export const getTicketByIdService = (): string[] => {
-    // Logic to process all items from the database
-    return ["Item 1", "Item 2"];
+export const getTicketByIdService = (id: number): Ticket | undefined => {
+    let ticket = tickets.find(x => x.id == id)
+    return ticket;
 };
 
 export const getTicketUrgencyService = (ticket: Ticket) => {
