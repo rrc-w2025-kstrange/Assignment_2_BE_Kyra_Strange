@@ -1,3 +1,13 @@
+
+export interface Tickets{
+    id: number,
+    title: string,
+    description: string,
+    priority: string,
+    status: string,
+    createdAt: Date
+}
+
 export const getAllTicketsService = (): string[] => {
     // Logic to process all items from the database
     return ["Item 1", "Item 2"];
