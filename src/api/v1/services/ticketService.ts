@@ -1,16 +1,24 @@
+import { tickets } from "../../../data/ticketData"
 
 export interface Ticket{
     id: number,
     title: string,
     description: string,
-    priority: string,
-    status: string,
+    priority: "low" | "medium" | "high" | "critical",
+    status: "open" | "resolved",
     createdAt: Date
 }
 
-export const getAllTicketsService = (): string[] => {
-    // Logic to process all items from the database
-    return ["Item 1", "Item 2"];
+const baseScore = {
+    critical: 50,
+    high: 30,
+    medium: 20,
+    low: 10,
+};
+
+
+export const getAllTicketsService = (): {} => {
+    return {message: "Tickets retrieved", count: tickets.length, data: tickets};
 };
 
 export const getTicketByIdService = (): string[] => {
@@ -18,9 +26,31 @@ export const getTicketByIdService = (): string[] => {
     return ["Item 1", "Item 2"];
 };
 
-export const getTicketUrgencyService = (): string[] => {
-    // Logic to process all items from the database
-    return ["Item 1", "Item 2"];
+export const getTicketUrgencyService = (ticket: Ticket) => {
+    let message = "Ticket urgency calculated"
+
+    if (ticket.status === "resolved") {
+        return {
+            ticketAge: 0,
+            urgencyScore: 0,
+            urgencyLevel: "Ticket is resolved.",
+        };
+    }
+
+    const now = new Date();
+    const ticketAge = Math.floor((now.getTime() - ticket.createdAt.getTime()) / (1000 * 60 * 60 * 24));
+    const base = baseScore[ticket.priority];
+    const urgencyScore = base + ticketAge * 5;
+
+    let urgencyLevel = "Low urgency. Monitor the ticket.";
+    if (urgencyScore >= 100) urgencyLevel = "Critical urgency! Immediate action required.";
+    else if (urgencyScore >= 70) urgencyLevel = "High urgency. Needs prompt attention.";
+    else if (urgencyScore >= 40) urgencyLevel = "Moderate urgency. Schedule soon.";
+
+    return { 
+        message, 
+        data: {...ticket, ticketAge, urgencyScore, urgencyLevel}
+    };
 };
 
 export const createTicketService = (item: string): string => {
