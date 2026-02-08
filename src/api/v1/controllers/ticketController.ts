@@ -1,40 +1,47 @@
 import { Request, Response } from "express";
 import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService, Ticket } from "../services/ticketService";
-import { error } from "console";
+import { HTTP_STATUS } from "src/constants/httpConstants";
+
 
 export const getAllTickets = (req: Request, res: Response) => {
     let result = getAllTicketsService()
-    res.status(200).json(result);
+    res.status(HTTP_STATUS.OK).json(result);
 };
 
 export const getTicketById = (req: Request, res: Response) => {
     let id = Number(req.params.id)
 
     if (Number.isNaN(id)){
-        res.status(404).json({error})
+        res.status(HTTP_STATUS.BAD_REQUEST).json({error: "id must be a number"})
+        return;        
+    }
+    
+    let result = getTicketByIdService(id)  
+
+    if (result === undefined) {
+        res.status(HTTP_STATUS.NOT_FOUND).json({ error: "Ticket with ${id} not found" });
     }
 
-    let result = getTicketByIdService(id)
-    res.status(200).json(result);
+    res.status(HTTP_STATUS.OK).json(result);
 };
 
 export const getTicketUrgency = (req: Request, res: Response) => {
     let id = Number(req.params.id)
 
     if (Number.isNaN(id)){
-        res.status(404).json({error})
+        res.status(HTTP_STATUS.BAD_REQUEST).json({error: "id must be a number"})
         return;
     }
     
     const ticket = getTicketByIdService(id);
 
     if (!ticket) {
-        res.status(404).json({ message: "Ticket not found" });
+        res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
         return;
     }
 
     let result = getTicketUrgencyService(ticket);
-    res.status(200).json(result);
+    res.status(HTTP_STATUS.OK).json(result);
     return;
 };    
 
