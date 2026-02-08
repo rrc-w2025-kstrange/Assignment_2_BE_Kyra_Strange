@@ -1,5 +1,5 @@
 
-export interface Tickets{
+export interface Ticket{
     id: number,
     title: string,
     description: string,
