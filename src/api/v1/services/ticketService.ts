@@ -83,9 +83,19 @@ export const createTicketService = (data: Pick<Ticket, "title" | "description" |
     return newTicket;
 };
 
-export const updateTicketService = (id: number, item: string): string => {
-    // Logic to update an item in the database
-    return "Item updated";
+export const updateTicketService = (id: number, updateData: { priority?: string; status?: string }): Ticket | undefined => {
+    let ticket = tickets.find(x => x.id == id)
+    if (!ticket) return undefined;
+
+    if (updateData.priority) {
+        ticket.priority = updateData.priority as "low" | "medium" | "high" | "critical";
+    }
+
+    if (updateData.status) {
+        ticket.status = updateData.status as "open" | "in-progress" | "resolved";
+    }
+
+    return ticket;
 };
 
 export const deleteTicketService = (id: number): string => {

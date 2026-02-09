@@ -73,9 +73,34 @@ export const createTicket = (req: Request, res: Response) => {
 };
 
 export const updateTicket = (req: Request, res: Response) => {
-    let result = updateTicketService(21, "test")
-    res.status(200).json(result);
+    let id = Number(req.params.id);
+    if (Number.isNaN(id)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({ message: "id must be a number" });
+    }
+
+    const { priority, status } = req.body;
+
+    if (priority && !["low", "medium", "high", "critical"].includes(priority)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Invalid priority. Must be one of: critical, high, medium, low"
+        });
+    }
+
+    if (status && !["open", "in-progress", "resolved"].includes(status)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Invalid status. Must be one of: open, in-progress, resolved"
+        });
+    }
+
+    const updatedTicket = updateTicketService(id, { priority, status });
+
+    if (!updatedTicket) {
+        return res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
+    }
+
+    return res.status(HTTP_STATUS.OK).json(updatedTicket);
 };
+
 
 export const deleteTicket = (req: Request, res: Response) => {
     let result = deleteTicketService(12)
