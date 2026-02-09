@@ -2,12 +2,23 @@ import { Request, Response } from "express";
 import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService, Ticket } from "../services/ticketService";
 import { HTTP_STATUS } from "src/constants/httpConstants";
 
-
+/**
+ * Retrieves all tickets from the system.
+ * @param req - Express request object
+ * @param res - Express response object
+ * @returns JSON array of all tickets with HTTP 200
+ */
 export const getAllTickets = (req: Request, res: Response) => {
     let result = getAllTicketsService()
     res.status(HTTP_STATUS.OK).json(result);
 };
 
+/**
+ * Retrieves a ticket by its Id.
+ * @param req - Express request object, expects req.params.id
+ * @param res - Express response object
+ * @returns JSON object of the ticket with HTTP 200, or error if invalid Id/not found
+ */
 export const getTicketById = (req: Request, res: Response) => {
     let id = Number(req.params.id)
 
@@ -25,6 +36,12 @@ export const getTicketById = (req: Request, res: Response) => {
     res.status(HTTP_STATUS.OK).json(result);
 };
 
+/**
+ * Calculates and retrieves the urgency of a ticket by Id.
+ * @param req - Express request object, expects req.params.id
+ * @param res - Express response object
+ * @returns JSON object with ticket urgency info, or error if ticket not found/invalid Id
+ */
 export const getTicketUrgency = (req: Request, res: Response) => {
     let id = Number(req.params.id)
 
@@ -45,7 +62,12 @@ export const getTicketUrgency = (req: Request, res: Response) => {
     return;
 };    
 
-
+/**
+ * Creates a new ticket with title, description, and priority.
+ * @param req - Express request object, expects req.body with title, description, priority
+ * @param res - Express response object
+ * @returns JSON object of newly created ticket, or error if missing/invalid fields
+ */
 export const createTicket = (req: Request, res: Response) => {
     const { title, description, priority } = req.body;
 
@@ -72,6 +94,12 @@ export const createTicket = (req: Request, res: Response) => {
     return res.status(HTTP_STATUS.OK).json(newTicket);
 };
 
+/**
+ * Updates an existing ticket's priority and/or status by Id.
+ * @param req - Express request object, expects req.params.id and req.body with priority/status
+ * @param res - Express response object
+ * @returns JSON object of updated ticket, or error if invalid Id, ticket not found, or invalid fields
+ */
 export const updateTicket = (req: Request, res: Response) => {
     let id = Number(req.params.id);
     if (Number.isNaN(id)) {
@@ -101,6 +129,13 @@ export const updateTicket = (req: Request, res: Response) => {
     return res.status(HTTP_STATUS.OK).json(updatedTicket);
 };
 
+
+/**
+ * Deletes a ticket by ID.
+ * @param req - Express request object, expects req.params.id
+ * @param res - Express response object
+ * @returns JSON object with deletion result, or error if invalid ID/ticket not found
+ */
 export const deleteTicket = (req: Request, res: Response) => {
     let id = Number(req.params.id);    
 
@@ -115,7 +150,7 @@ export const deleteTicket = (req: Request, res: Response) => {
         res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
         return;
     }    
-    
+
     let result = deleteTicketService(id)
-    res.status(200).json(result);
+    res.status(HTTP_STATUS.OK).json(result);
 };
