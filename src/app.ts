@@ -6,15 +6,10 @@ const app: Express = express();
 
 app.use(express.json());
 
-app.use("/api/v1", ticketRoutes);
-
-
 // Use Morgan for HTTP request logging
 app.use(morgan("combined"));
 
-app.get("/api/v1/items", (req: Request, res: Response) => {
-    res.json({ message: "Get all items" });
-});
+app.use("/api/v1", ticketRoutes);
 
 app.get("/api/v1/health", (req, res) => {
     res.json({

@@ -103,4 +103,5 @@ export const deleteTicketService = (id: number) => {
 
     if (ticketToDeleteIndex !== -1) 
     tickets.splice(ticketToDeleteIndex, 1);
+    return;
 };
