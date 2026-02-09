@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getAllTicketsService, getTicketByIdService, getTicketUrgencyService, createTicketService, updateTicketService, deleteTicketService, Ticket } from "../services/ticketService";
-import { HTTP_STATUS } from "src/constants/httpConstants";
+import { HTTP_STATUS } from "../../../constants/httpConstants";
 
 /**
  * Retrieves all tickets from the system.
