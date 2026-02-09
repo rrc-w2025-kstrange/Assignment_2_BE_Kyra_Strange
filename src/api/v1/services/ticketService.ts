@@ -98,7 +98,9 @@ export const updateTicketService = (id: number, updateData: { priority?: string;
     return ticket;
 };
 
-export const deleteTicketService = (id: number): string => {
-    // Logic to delete an item from the database
-    return "Item deleted";
+export const deleteTicketService = (id: number) => {
+    let ticketToDeleteIndex = tickets.findIndex(x=>x.id === id);
+
+    if (ticketToDeleteIndex !== -1) 
+    tickets.splice(ticketToDeleteIndex, 1);
 };

@@ -101,8 +101,21 @@ export const updateTicket = (req: Request, res: Response) => {
     return res.status(HTTP_STATUS.OK).json(updatedTicket);
 };
 
-
 export const deleteTicket = (req: Request, res: Response) => {
-    let result = deleteTicketService(12)
+    let id = Number(req.params.id);    
+
+    if (Number.isNaN(id)){
+        res.status(HTTP_STATUS.BAD_REQUEST).json({error: "id must be a number"})
+        return;
+    }
+
+    const ticket = getTicketByIdService(id);
+
+    if (!ticket) {
+        res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
+        return;
+    }    
+    
+    let result = deleteTicketService(id)
     res.status(200).json(result);
 };
