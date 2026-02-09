@@ -11,18 +11,23 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
-        "express": "^5.1.0"
+        "morgan": "^1.10.1"
     },
     "devDependencies": {
-        "@types/express": "^5.0.2",
+        "@types/express": "^4.17.25",
         "@types/jest": "^29.5.14",
-        "@types/node": "^22.15.24",
+        "@types/morgan": "^1.9.10",
+        "@types/node": "^22.19.10",
         "@types/supertest": "^6.0.3",
+        "@typescript-eslint/eslint-plugin": "^8.54.0",
+        "@typescript-eslint/parser": "^8.54.0",
+        "eslint": "^9.39.2",
+        "express": "^4.22.1",
         "jest": "^30.2.0",
         "supertest": "^7.2.2",
         "ts-jest": "^29.4.6",
         "ts-node": "^10.9.2",
-        "typescript": "^5.8.3"
+        "typescript": "^5.9.3"
     },
     "jest": {
         "preset": "ts-jest",
@@ -36,5 +41,16 @@
         "transform": {
             "^.+\\.ts$": "ts-jest"
         }
-    }
+    },
+    "directories": {
+        "test": "test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rrc-w2025-kstrange/Assignment_2_BE_Kyra_Strange.git"
+    },
+    "bugs": {
+        "url": "https://github.com/rrc-w2025-kstrange/Assignment_2_BE_Kyra_Strange/issues"
+    },
+    "homepage": "https://github.com/rrc-w2025-kstrange/Assignment_2_BE_Kyra_Strange#readme"
 }

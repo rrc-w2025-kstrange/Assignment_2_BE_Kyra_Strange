@@ -1,12 +1,15 @@
-import express, { Express } from "express";
+import express, { Request, Response, Express } from "express";
+import ticketRoutes from "./api/v1/routes/ticketRoutes";
+import morgan from "morgan";
 
-// Initialize Express application
 const app: Express = express();
 
-// Define a route
-app.get("/", (req, res) => {
-    res.send("Hello, World!");
-});
+app.use(express.json());
+
+// Use Morgan for HTTP request logging
+app.use(morgan("combined"));
+
+app.use("/api/v1/tickets", ticketRoutes);
 
 app.get("/api/v1/health", (req, res) => {
     res.json({
