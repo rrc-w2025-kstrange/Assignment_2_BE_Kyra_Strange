@@ -5,7 +5,7 @@ export interface Ticket{
     title: string,
     description: string,
     priority: "low" | "medium" | "high" | "critical",
-    status: "open" | "resolved",
+    status: "open" | "in-progress" | "resolved",
     createdAt: Date
 }
 
@@ -69,9 +69,18 @@ export const getTicketUrgencyService = (ticket: Ticket) => {
     };
 }
 
-export const createTicketService = (item: string): string => {
-    // Logic to add a new item to the database
-    return "Item added";
+export const createTicketService = (data: Pick<Ticket, "title" | "description" | "priority">): Ticket => { 
+    const newTicket: Ticket = {
+        id: tickets.length + 1,
+        title: data.title,
+        description: data.description,
+        priority: data.priority,
+        status: "open",
+        createdAt: new Date(),
+    };
+
+    tickets.push(newTicket);
+    return newTicket;
 };
 
 export const updateTicketService = (id: number, item: string): string => {

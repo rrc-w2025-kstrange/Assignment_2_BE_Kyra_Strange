@@ -47,8 +47,29 @@ export const getTicketUrgency = (req: Request, res: Response) => {
 
 
 export const createTicket = (req: Request, res: Response) => {
-    let result = createTicketService("test")
-    res.status(200).json(result);
+    const { title, description, priority } = req.body;
+
+    if (!title) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Missing required field: title"
+        });
+    }
+
+    if (!description) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Missing required field: description"
+        });
+    }
+
+    if (!priority || !["low", "medium", "high", "critical"].includes(priority)) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: "Invalid priority. Must be one of: critical, high, medium, low"
+        });
+    }
+
+    const newTicket = createTicketService({ title, description, priority });
+
+    return res.status(HTTP_STATUS.OK).json(newTicket);
 };
 
 export const updateTicket = (req: Request, res: Response) => {
