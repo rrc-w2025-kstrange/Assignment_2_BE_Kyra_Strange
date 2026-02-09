@@ -9,7 +9,7 @@ app.use(express.json());
 // Use Morgan for HTTP request logging
 app.use(morgan("combined"));
 
-app.use("/api/v1", ticketRoutes);
+app.use("/api/v1/tickets", ticketRoutes);
 
 app.get("/api/v1/health", (req, res) => {
     res.json({

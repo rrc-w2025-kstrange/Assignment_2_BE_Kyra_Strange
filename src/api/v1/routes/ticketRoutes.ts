@@ -3,12 +3,12 @@ import { getAllTickets, getTicketById, getTicketUrgency, createTicket, updateTic
 
 const ticketsRouter = Router();
 
-ticketsRouter.get('/tickets', getAllTickets);
-ticketsRouter.get('/tickets/:id', getTicketById);
-ticketsRouter.get('/tickets/:id/urgency', getTicketUrgency);
-ticketsRouter.post('/tickets', createTicket);
-ticketsRouter.put('/tickets/:id', updateTicket);
-ticketsRouter.delete('/tickets/:id', deleteTicket);
+ticketsRouter.get('/', getAllTickets);
+ticketsRouter.get('/:id', getTicketById);
+ticketsRouter.get('/:id/urgency', getTicketUrgency);
+ticketsRouter.post('/', createTicket);
+ticketsRouter.put('/:id', updateTicket);
+ticketsRouter.delete('/:id', deleteTicket);
 
 
 export default ticketsRouter;
