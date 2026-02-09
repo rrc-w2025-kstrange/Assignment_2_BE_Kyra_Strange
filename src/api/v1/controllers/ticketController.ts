@@ -30,7 +30,7 @@ export const getTicketById = (req: Request, res: Response) => {
     let result = getTicketByIdService(id)  
 
     if (result === undefined) {
-        res.status(HTTP_STATUS.NOT_FOUND).json({ error: "Ticket with ${id} not found" });
+        res.status(HTTP_STATUS.NOT_FOUND).json({ error: `Ticket with ${id} not found` });
     }
 
     res.status(HTTP_STATUS.OK).json(result);
@@ -91,7 +91,7 @@ export const createTicket = (req: Request, res: Response) => {
 
     const newTicket = createTicketService({ title, description, priority });
 
-    return res.status(HTTP_STATUS.OK).json(newTicket);
+    return res.status(HTTP_STATUS.CREATED).json(newTicket);
 };
 
 /**
